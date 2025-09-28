@@ -1,3 +1,4 @@
+import { Filterable } from '../../filter';
 import {
   Entity,
   Column,
@@ -11,18 +12,23 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Filterable({ type: 'string' })
   @Column({ type: 'varchar', length: 255 })
   name: string;
 
+  @Filterable({ type: 'string' })
   @Column({ type: 'varchar', length: 255, unique: true })
   email: string;
 
+  @Filterable({ type: 'number' })
   @Column({ type: 'int' })
   age: number;
 
+  @Filterable({ type: 'string' })
   @Column({ type: 'varchar', length: 50 })
   role: string;
 
+  @Filterable({ type: 'boolean' })
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
 
@@ -39,3 +45,8 @@ export class User {
   @Column({ type: 'text', nullable: true, select: false })
   internalNotes: string;
 }
+
+/**
+ * the filter system in this case is based on the @Filterable decorator
+ * it shall use the default operators based on a field type as defined in filter.constants.ts
+ */
