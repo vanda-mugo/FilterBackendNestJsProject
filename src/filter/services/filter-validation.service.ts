@@ -9,6 +9,7 @@ import {
   isOrGroup,
   FilterOperator,
   EntitySchema,
+  FieldSchema,
 } from '../types/filter.types';
 import {
   DEFAULT_OPERATORS_BY_TYPE,
@@ -187,7 +188,7 @@ export class FilterValidationService {
    */
   private validateConditionValue(
     condition: FilterCondition,
-    fieldSchema: { type: string },
+    fieldSchema: FieldSchema,
   ): void {
     const operator: FilterOperator = condition.operator;
     const value: unknown = condition.value;
@@ -211,7 +212,13 @@ export class FilterValidationService {
       }
       // Validate each array element
       value.forEach((val: unknown, index: number) => {
-        if (!this.isValidValueForType(val, fieldSchema.type)) {
+        if (
+          !this.isValidValueForType(
+            val,
+            fieldSchema.type,
+            fieldSchema.enumValues,
+          )
+        ) {
           throw new BadRequestException(
             `Invalid value at index ${index} for field type "${fieldSchema.type}"`,
           );
@@ -229,7 +236,13 @@ export class FilterValidationService {
       }
       // Validate both values
       value.forEach((val: unknown, index: number) => {
-        if (!this.isValidValueForType(val, fieldSchema.type)) {
+        if (
+          !this.isValidValueForType(
+            val,
+            fieldSchema.type,
+            fieldSchema.enumValues,
+          )
+        ) {
           throw new BadRequestException(
             `Invalid value at index ${index} for field type "${fieldSchema.type}"`,
           );
@@ -243,7 +256,9 @@ export class FilterValidationService {
       throw new BadRequestException(`Operator "${operator}" requires a value`);
     }
 
-    if (!this.isValidValueForType(value, fieldSchema.type)) {
+    if (
+      !this.isValidValueForType(value, fieldSchema.type, fieldSchema.enumValues)
+    ) {
       throw new BadRequestException(
         `Invalid value for field type "${fieldSchema.type}"`,
       );
@@ -263,7 +278,11 @@ export class FilterValidationService {
    * - boolean: Boolean type validation
    * - date: ISO string or Date object validation
    */
-  private isValidValueForType(value: unknown, fieldType: string): boolean {
+  private isValidValueForType(
+    value: unknown,
+    fieldType: string,
+    enumValues?: string[],
+  ): boolean {
     switch (fieldType) {
       case 'string':
         return typeof value === 'string';
@@ -277,6 +296,10 @@ export class FilterValidationService {
           (typeof value === 'string' && !isNaN(Date.parse(value))) ||
           value instanceof Date
         );
+      case 'enum':
+        return typeof value === 'string' && enumValues
+          ? enumValues.includes(value)
+          : false;
       default:
         return false;
     }

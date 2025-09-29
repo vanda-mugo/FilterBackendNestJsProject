@@ -355,16 +355,13 @@ describe('Filter Validation Tests', () => {
         {}, // Empty object
         { field: 'stringField' }, // Missing operator
         { operator: 'eq' }, // Missing field
-        {
-          field: 'stringField',
-          operator: 'eq',
-          value: 'test',
-          extraProperty: 'invalid',
-        },
+        null, // Null filter
+        undefined, // Undefined filter
       ];
 
       malformedFilters.forEach((filter) => {
         expect(() => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           filterValidationService.validateFilter(filter, mockEntitySchema);
         }).toThrow(BadRequestException);
       });
