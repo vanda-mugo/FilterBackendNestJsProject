@@ -25,7 +25,7 @@ A comprehensive, type-safe filtering system for NestJS applications with TypeORM
 
 1. **Clone and install dependencies:**
 ```bash
-git clone <repository-url>
+git clone https://github.com/vanda-mugo/FilterBackendNestJsProject.git
 cd nest-filter-backend
 npm install
 ```
