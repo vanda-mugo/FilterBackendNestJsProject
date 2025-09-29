@@ -2,7 +2,7 @@ import { User } from '../../users/entities/user.entity';
 import { AppDataSource } from '../data-source';
 
 export const seedUsers = async () => {
-  console.log('🌱 Seeding users...');
+  console.log(' Seeding users...');
 
   const userRepository = AppDataSource.getRepository(User);
 

@@ -21,7 +21,9 @@ import { UsersModule } from './users/users.module';
         password: configService.get('DATABASE_PASSWORD'),
         database: configService.get('DATABASE_NAME'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: configService.get('NODE_ENV') === 'development',
+        migrations: [__dirname + '/database/migrations/*{.ts,.js}'],
+        synchronize: false, // Disable for consistency
+        migrationsRun: false,
         logging: configService.get('NODE_ENV') === 'development',
       }),
       inject: [ConfigService],

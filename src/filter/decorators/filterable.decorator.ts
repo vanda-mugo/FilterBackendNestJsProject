@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import { SetMetadata } from '@nestjs/common';
 import {
   FilterOperator,
   FieldType,
@@ -36,8 +35,18 @@ export interface FilterableOptions {
  *   role: string;
  * }
  */
-export const Filterable = (options: FilterableOptions): PropertyDecorator =>
-  SetMetadata(FILTERABLE_METADATA_KEY, options);
+export const Filterable = (options: FilterableOptions): PropertyDecorator => {
+  return (target: object, propertyKey: string | symbol | undefined) => {
+    if (propertyKey) {
+      Reflect.defineMetadata(
+        FILTERABLE_METADATA_KEY,
+        options,
+        target,
+        propertyKey,
+      );
+    }
+  };
+};
 
 /**
  * Utility to extract EntitySchema from a class decorated with @Filterable
@@ -46,17 +55,18 @@ export function extractEntitySchema<T>(
   entityClass: new () => T,
   entityName?: string,
 ): EntitySchema {
+  const prototype = entityClass.prototype as object;
   const instance = new entityClass();
   const fields: FieldSchema[] = [];
 
-  // Get all property names from the class
+  // Get all property names from the instance
   const propertyNames = Object.getOwnPropertyNames(instance);
 
   for (const propertyName of propertyNames) {
-    // Get metadata for this property
+    // Get metadata for this property from the prototype
     const metadata = Reflect.getMetadata(
       FILTERABLE_METADATA_KEY,
-      instance as object,
+      prototype,
       propertyName,
     ) as FilterableOptions | undefined;
 

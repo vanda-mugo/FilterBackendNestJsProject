@@ -1,8 +1,15 @@
-FROM node:18-alpine AS development
+FROM node:20-alpine AS base
+
+# Install dependencies for better Node.js support
+RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 
+# Copy package files
 COPY package*.json ./
+
+# Development stage
+FROM base AS development
 
 RUN npm ci
 
@@ -13,13 +20,9 @@ EXPOSE 3000
 CMD ["npm", "run", "start:dev"]
 
 # Production build
-FROM node:18-alpine AS production
+FROM base AS production
 
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm ci --only=production
+RUN npm ci --only=production && npm cache clean --force
 
 COPY . .
 
