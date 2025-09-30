@@ -36,9 +36,9 @@ Option A - Using Docker:
 ```bash
 # Start PostgreSQL with Docker
 docker run --name postgres-filter \
-  -e POSTGRES_USER=filteruser \
-  -e POSTGRES_PASSWORD=filterpass \
-  -e POSTGRES_DB=filterdb \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=filter_db \
   -p 5432:5432 \
   -d postgres:15
 ```
@@ -46,7 +46,7 @@ docker run --name postgres-filter \
 Option B - Local PostgreSQL:
 ```bash
 # Create database
-createdb filterdb
+createdb filter_db
 ```
 
 ## Development Options
@@ -147,9 +147,9 @@ cp .env.example .env
 # Edit .env with your database credentials
 DATABASE_HOST=localhost
 DATABASE_PORT=5432
-DATABASE_USERNAME=filteruser
-DATABASE_PASSWORD=filterpass
-DATABASE_NAME=filterdb
+DATABASE_USER=postgres
+DATABASE_PASSWORD=postgres
+DATABASE_NAME=filter_db
 ```
 
 4. **Database Migration & Seeding:**
@@ -798,6 +798,84 @@ The filter system follows a modular, layered architecture designed for maintaina
 │   ├── decorators/        # Custom decorators (@Filterable)
 │   └── tests/             # Comprehensive test suite
 ```
+
+### Database Structure & Migrations Explained
+
+Understanding the project's database organization is crucial for maintenance and development:
+
+#### Why We Need Migrations
+
+**Migrations are version control for your database schema**. Here's why they're essential:
+
+1. **Database Evolution**: As your app grows, you need to add/modify tables, columns, and indexes
+2. **Team Collaboration**: Everyone gets the same database structure when they run `npm run migration:run`
+3. **Production Safety**: Controlled, reversible changes to production databases
+4. **History Tracking**: Every database change is documented and can be rolled back
+
+**Example**: When you run `npm run migration:generate -- -n CreateUserTable`, TypeORM creates a timestamped file like `1727596741150-CreateUserTable.ts` that contains:
+```typescript
+// Up: Apply the change
+public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`CREATE TABLE "user" (...)`);
+}
+
+// Down: Reverse the change  
+public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`DROP TABLE "user"`);
+}
+```
+
+#### The Database Folder Structure
+
+```
+src/database/
+├── data-source.ts         # Main TypeORM configuration
+├── test-data-source.ts    # Separate config for testing
+├── migrations/            # All database schema changes
+│   └── 1727596741150-CreateUserTable.ts
+└── seeds/                 # Sample data for development
+    └── user-seeder.ts
+```
+
+**Purpose of each file**:
+- **`data-source.ts`**: Connects to PostgreSQL, loads entities, runs migrations
+- **`test-data-source.ts`**: Isolated test database (won't affect your dev data)
+- **`migrations/`**: Step-by-step database changes (like Git commits for your schema)
+- **`seeds/`**: Creates sample users for testing the filter system
+
+#### Why Two Entity Folders?
+
+You noticed we have entities in two places - here's why:
+
+```
+src/entities/user.entity.ts           # ← Global entity (shared across modules)
+src/users/entities/user.entity.ts     # ← Module-specific entity (NestJS convention)
+```
+
+**The Simple Explanation**:
+
+1. **`src/entities/`** = **Global Database Models**
+   - These are the "official" database table definitions
+   - TypeORM uses these to generate migrations
+   - Shared across the entire application
+
+2. **`src/users/entities/`** = **Module-Specific Models** 
+   - NestJS modules often have their own entity folder for organization
+   - Usually imports/re-exports from the global entities
+   - Keeps module code self-contained
+
+**In practice**, both files typically contain the same entity or one imports the other:
+
+```typescript
+// src/users/entities/user.entity.ts might just be:
+export { User } from '../../entities/user.entity';
+```
+
+**Why this pattern?**:
+- **Team Development**: Different teams can work on different modules
+- **Code Organization**: Each module contains everything it needs
+- **Scalability**: Easy to find module-related code in one place
+- **NestJS Convention**: Follows the framework's recommended structure
 
 ### Key Design Principles
 
