@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Test runner script for filter system techo "📝 To run with coverage:"
+# Test runner script for filter system techo " To run with coverage:"
 echo "   npm test -- --coverage --testPathPatterns=\"src/filter/tests\""ts
 
 echo " Running Filter System Tests..."

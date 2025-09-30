@@ -41,6 +41,9 @@ export class UsersService {
     const offset = (page - 1) * limit;
 
     // Create base query
+    // this is the example of query generation without filters
+    // SELECT * FROM "users" AS "user"
+
     let queryBuilder = this.userRepository.createQueryBuilder('user');
 
     // Apply filters if provided

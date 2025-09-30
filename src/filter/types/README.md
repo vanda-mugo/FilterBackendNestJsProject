@@ -1,9 +1,9 @@
 # Filter Types Documentation
 
-## 📋 **Overview**
+##  **Overview**
 
 The filter types system provides a complete solution for handling the nested and/or filter JSON structure 
-## 🎯 **Core Types**
+##  **Core Types**
 
 ### **1. FilterOperator**
 Defines all supported operators:
@@ -36,7 +36,7 @@ Logical groupings that can contain conditions or nested groups:
 ### **5. FilterDefinition**
 Root type that can be any of the above - this is what endpoints receive.
 
-## 🔧 **Key Features**
+##  **Key Features**
 
 ### **Type Safety**
 - **Runtime Type Guards**: `isFilterCondition()`, `isAndGroup()`, `isOrGroup()`
@@ -62,7 +62,7 @@ interface FieldSchema {
 - **Enum fields**: eq, neq, in, is_null, is_not_null
 - **UUID fields**: eq, neq, in, is_null, is_not_null
 
-## 📖 **Usage Examples**
+##  **Usage Examples**
 
 ### **Assignment Example**
 ```json
@@ -99,7 +99,7 @@ interface FieldSchema {
 }
 ```
 
-## 🛡️ **Validation Rules**
+##  **Validation Rules**
 
 ### **Operator-Specific Validation**
 - **`between`**: Must have exactly 2 values `[min, max]`
@@ -114,7 +114,7 @@ interface FieldSchema {
 - **Operator Restriction**: Only allowed operators per field type
 - **Custom Constraints**: Per-field operator restrictions
 
-## 🔄 **How It Works**
+##  **How It Works**
 
 ### **1. Request Processing**
 ```typescript
@@ -140,7 +140,7 @@ const queryBuilder = convertToQuery(filter);
 // Results in: WHERE age > 30 AND (role = 'admin' OR isActive = true)
 ```
 
-## 🎯 **Next Steps**
+##  **Next Steps**
 
 With these types in place, we can now build:
 1. **@Filterable Decorator** - Mark entity fields as filterable
@@ -148,4 +148,4 @@ With these types in place, we can now build:
 3. **Query Builder** - Convert filters to SQL
 4. **Filter Module** - Tie everything together
 
-The types provide the foundation for a complete, type-safe, and secure filtering system that exactly matches the assignment requirements.
+The types provide the foundation for a complete, type-safe, and secure filtering system.
