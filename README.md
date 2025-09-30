@@ -11,7 +11,7 @@ A comprehensive, type-safe filtering system for NestJS applications with TypeORM
 -  **Database Integration**: Seamless TypeORM query generation
 -  **Multiple Endpoints**: Both GET (query params) and POST (JSON body) support
 -  **Pagination & Sorting**: Built-in pagination and sorting capabilities
--  **Comprehensive Testing**: 49 tests covering all functionality
+-  **Comprehensive Testing**: 69 tests covering all functionality
 
 ## Setup Instructions
 
@@ -144,13 +144,19 @@ npm run start:dev
 # Copy environment template
 cp .env.example .env
 
-# Edit .env with your database credentials
+# The .env file contains all necessary configuration:
 DATABASE_HOST=localhost
 DATABASE_PORT=5432
 DATABASE_USER=postgres
 DATABASE_PASSWORD=postgres
 DATABASE_NAME=filter_db
+
+# Application settings for development
+PORT=3001
+NODE_ENV=development
 ```
+
+**Note**: The `.env.example` is pre-configured with the correct values that match your Docker setup. Just copy it and you're ready to go!
 
 4. **Database Migration & Seeding:**
 ```bash

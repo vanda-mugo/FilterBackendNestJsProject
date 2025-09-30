@@ -2,7 +2,7 @@
 
 ## Test Overview
 
-This NestJS filter system has **comprehensive test coverage** with **50 tests for Performance and consistency validation
+This NestJS filter system has **comprehensive test coverage** with **69 tests for Performance and consistency validation
 
 ```bash
 npm test src/filter/tests/query-execution.spec.ts
@@ -24,14 +24,14 @@ npm test src/filter/tests/query-execution.spec.ts
 ## Test Configuration
 
 - **6 test suites** - All passing  
-- **50 tests total** - 100% passing rate  
+- **69 tests total** - 100% passing rate  
 - **Full coverage** - Unit, integration, and API endpoint testing  
 
 ## Test Structureuide for NestJS Filter Backend
 
 ##  Test Overview
 
-This NestJS filter system has **comprehensive test coverage** with **50 passing tests across 6 test suites**:
+This NestJS filter system has **comprehensive test coverage** with **69 passing tests across 6 test suites**:
 
  **6 test suites** - All passing  
  **50 tests total** - 100% passing rate  
@@ -43,7 +43,7 @@ This NestJS filter system has **comprehensive test coverage** with **50 passing 
 src/
 ├── app.controller.spec.ts                     # App Controller (1 test)
 └── filter/tests/
-    ├── filter-validation.spec.ts              # Input Validation (4 tests)
+    ├── filter-validation.spec.ts              # Input Validation (23 tests)
     ├── filter-query-conversion.spec.ts        # SQL Generation (10 tests)  
     ├── field-exposure-restriction.spec.ts     # Security Tests (3 tests)
     ├── endpoint-behavior.spec.ts              # API Behavior (12 tests)
@@ -56,7 +56,7 @@ src/
 ```bash
 # Run all tests (recommended)
 npm test
-# Result: 6 passed test suites, 50 passed tests
+# Result: 6 passed test suites, 69 passed tests
 
 # Watch mode (re-runs on file changes)
 npm run test:watch
@@ -70,11 +70,11 @@ npm test --silent
 
 ### Specific Test Categories
 ```bash
-# Run only filter system tests (49 tests)
+# Run only filter system tests (68 tests)
 npm test src/filter/tests/
 
 # Run individual test suites
-npm test src/filter/tests/filter-validation.spec.ts       # 4 tests
+npm test src/filter/tests/filter-validation.spec.ts       # 23 tests
 npm test src/filter/tests/query-execution.spec.ts         # 20 tests
 npm test src/filter/tests/endpoint-behavior.spec.ts       # 12 tests
 
@@ -84,7 +84,7 @@ npm test -- --testNamePattern="validation"
 
 ## Test Coverage Breakdown
 
-### 1. **Filter Validation Tests** (4 tests)
+### 1. **Filter Validation Tests** (23 tests)
 **File**: `filter-validation.spec.ts`  
 **Purpose**: Validates input filter structures and catches invalid requests
 
@@ -229,7 +229,7 @@ npm test src/filter/tests/query-execution.spec.ts
  PASS  src/filter/tests/query-execution.spec.ts
 
 Test Suites: 6 passed, 6 total
-Tests:       50 passed, 50 total  
+Tests:       69 passed, 69 total  
 Snapshots:   0 total
 Time:        ~5.6s
 ```
@@ -280,7 +280,7 @@ This test suite follows these principles:
 4. **Performance Awareness**: Includes execution timing validation
 5. **Edge Case Handling**: Tests malformed inputs and error scenarios
 
-**Result**: 50 passing tests ensure the filter system is production-ready with reliable validation, security, and performance.
+**Result**: 69 passing tests ensure the filter system is production-ready with reliable validation, security, and performance.
 - All 13 filter operators functional
 - Field security via @Filterable decorators working
 - Complex nested AND/OR groups operational
@@ -333,7 +333,7 @@ curl -X POST "http://localhost:3000/users/filter" \
 ```json
 {
   "scripts": {
-    "test": "jest",                           // Run all tests (50 tests)
+    "test": "jest",                           // Run all tests (69 tests)
     "test:watch": "jest --watch",             // Watch mode
     "test:cov": "jest --coverage",            // With coverage report
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
@@ -450,7 +450,7 @@ open coverage/lcov-report/index.html
 **Summary**: The NestJS Filter Backend has achieved **100% test success rate** with comprehensive coverage across all functionality. The system is fully tested, validated, and ready for production deployment.
 
 **Key Achievements**:
-- 50 comprehensive tests covering all requirements
+- comprehensive tests covering all requirements
 - Real database integration with sample data
 - Complete API endpoint validation
 - Security and performance testing
