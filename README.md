@@ -144,6 +144,8 @@ npm run start:dev
 # Copy environment template
 cp .env.example .env
 
+ ***Note the presence of three different .env files to signify production, test and dev***
+
 # The .env file contains all necessary configuration:
 DATABASE_HOST=localhost
 DATABASE_PORT=5432
@@ -1130,6 +1132,41 @@ export class CustomFieldValidator implements ValidatorConstraintInterface {
 @ManyToOne(() => Profile)
 profile: Profile;
 ```
+
+## Environment Configuration
+
+This project uses environment files to manage configuration for different environments. You must create the following files in the project root:
+
+### .env.development
+```
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_USER=postgres
+DATABASE_PASSWORD=postgres
+DATABASE_NAME=filter_db
+PORT=3001
+NODE_ENV=development
+ENVIRONMENT=development
+```
+
+### .env.test
+```
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_USER=postgres
+DATABASE_PASSWORD=postgres
+DATABASE_NAME=filter_db
+PORT=3001
+NODE_ENV=development
+ENVIRONMENT=test
+```
+
+- The `.env.development` file is used for local development.
+- The `.env.test` file is used for running tests.
+- You can adjust values as needed for your environment (e.g., database host, port, credentials).
+- The app uses [@nestjs/config](https://docs.nestjs.com/techniques/configuration) to load these files automatically based on the environment.
+
+this is to showcase the different environments each with different configurations that the app can be run in, for now the configurations are the same and is a matter of conceptual design and approach to building production applications ensuring security in credentials as well as robust separation of concern with regards to using config files and namespace config files. 
 
 ## Example Dataset
 
