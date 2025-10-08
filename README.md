@@ -746,7 +746,7 @@ The filter system distinguishes between two types of field errors:
 ```typescript
 @Entity('users')
 export class User {
-  @Filterable({ type: 'string' })  // ✅ Filterable
+  @Filterable({ type: 'string' })  //  Filterable
   @Column()
   name: string;
 
